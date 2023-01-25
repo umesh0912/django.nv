@@ -54,19 +54,35 @@ jobs:
 workflows:
   version: 2
   django:
-    filters:
-      branches:
-        only:
-          - main
     jobs:
-      - build
+      - build:
+        filters:
+          branches:
+           only:
+            - main
       - test:
           requires:
            - build
+          filters:
+            branches:
+             only:
+              - main           
       - integration:
          requires:
            - test
-      - artifact     
+         filters:
+            branches:
+             only:
+              - main           
+      - artifact:
+        filters:
+          branches:
+            only:
+              - main
       - prod:
          requires:
            - integration
+         filters:
+          branches:
+            only:
+              - main
