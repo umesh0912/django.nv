@@ -43,4 +43,4 @@ workflows:
       - integration:
          requires:
            - test      
-      - prod:
+      - prod
