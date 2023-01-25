@@ -46,7 +46,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_USERNAME
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker build -t $DOCKER_USERNAME/django.nv .   # Build the application into Docker image
           docker push $DOCKER_USERNAME/django.nv         # Push the image into registry          
 workflows:
