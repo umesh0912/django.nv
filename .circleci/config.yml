@@ -23,7 +23,6 @@ jobs:
     steps:
       - checkout
       - run: exit 1 || true
-    when: on_fail  
 
   prod:
     docker:
@@ -31,6 +30,7 @@ jobs:
     steps:
       - checkout
       - run: echo "This is a deploy step"
+    when: always  
 
 workflows:
   version: 2
@@ -44,5 +44,3 @@ workflows:
          requires:
            - test      
       - prod:
-          requires:
-            - integration
