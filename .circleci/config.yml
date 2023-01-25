@@ -35,6 +35,7 @@ jobs:
   artifact:
     docker:
       - image: python:3.6
+    working_directory: /tmp  
     steps:
       - run:
           name: Creating Dummy Artifacts
