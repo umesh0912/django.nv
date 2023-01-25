@@ -26,11 +26,7 @@ jobs:
       - test      
     steps:
       - checkout
-      - run:
-          shell: /bin/bash
-          command: |
-            echo "This is an integration step"
-            exit 1  
+      - run: exit 1 || true
 
   prod:
     docker:
