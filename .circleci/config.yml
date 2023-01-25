@@ -22,7 +22,7 @@ jobs:
       - image: python:3.6   
     steps:
       - checkout
-      - run: exit 1 || true
+      - run: exit 0
 
   prod:
     docker:
@@ -31,6 +31,24 @@ jobs:
       - checkout
       - run: echo "This is a deploy step"
     when: always  
+    
+  artifact:
+    docker:
+      - image: python:3.6
+    steps:
+      - run:
+          name: Creating Dummy Artifacts
+          command: |
+            echo "my artifact file" > /tmp/artifact-1;
+            mkdir /tmp/artifacts;
+            echo "my artifact files in a dir" > /tmp/artifacts/artifact-2;
+
+      - store_artifacts:
+          path: /tmp/artifact-1
+          destination: artifact-file
+
+      - store_artifacts:
+          path: /tmp/artifacts    
 
 workflows:
   version: 2
@@ -42,7 +60,8 @@ workflows:
            - build
       - integration:
          requires:
-           - test      
-      - prod
+           - test
+      - artifact     
+      - prod:
          requires:
            - integration       
