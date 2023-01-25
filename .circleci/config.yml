@@ -1,41 +1,37 @@
 jobs:
   build:
     docker:
-      - image: python:3.6                   # similar to "image" in GitLab
+      - image: 'python:3.6'
     steps:
       - checkout
-      - run: |                              # similar to "script" in GitLab
+      - run: |
           pip install -r requirements.txt
           python manage.py check
-
   test:
     docker:
-      - image: python:3.6
+      - image: 'python:3.6'
     steps:
       - checkout
       - run: |
           pip install -r requirements.txt
           python manage.py test taskManager
-
   integration:
     docker:
-      - image: python:3.6   
+      - image: 'python:3.6'
     steps:
       - checkout
       - run: exit 0
-
   prod:
     docker:
-      - image: python:3.6     
+      - image: 'python:3.6'
     steps:
       - checkout
       - run: echo "This is a deploy step"
-    when: always  
-    
+    when: always
   artifact:
     docker:
-      - image: python:3.6
-    working_directory: /tmp  
+      - image: 'python:3.6'
+    working_directory: /tmp
     steps:
       - run:
           name: Creating Dummy Artifacts
@@ -43,14 +39,11 @@ jobs:
             echo "my artifact file" > /tmp/artifact-1;
             mkdir /tmp/artifacts;
             echo "my artifact files in a dir" > /tmp/artifacts/artifact-2;
-
       - store_artifacts:
           path: /tmp/artifact-1
           destination: artifact-file
-
       - store_artifacts:
-          path: /tmp/artifacts    
-
+          path: /tmp/artifacts
 workflows:
   version: 2
   django:
@@ -58,31 +51,31 @@ workflows:
       - build:
         filters:
           branches:
-           only:
-            - main
+            only:
+              - main
       - test:
           requires:
-           - build
+            - build
           filters:
             branches:
-             only:
-              - main           
+              only:
+                - main
       - integration:
-         requires:
-           - test
-         filters:
+          requires:
+            - test
+          filters:
             branches:
-             only:
-              - main           
+              only:
+                - main
       - artifact:
         filters:
           branches:
             only:
               - main
       - prod:
-         requires:
-           - integration
-         filters:
-          branches:
-            only:
-              - main
+          requires:
+            - integration
+          filters:
+            branches:
+              only:
+                - main
