@@ -27,10 +27,10 @@ jobs:
     steps:
       - checkout
       - run:
+          shell: /bin/bash
           command: |
             echo "This is an integration step"
-            exit 1
-          when: always  
+            exit 1  
 
   prod:
     docker:
