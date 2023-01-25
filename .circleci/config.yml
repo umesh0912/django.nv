@@ -46,4 +46,3 @@ workflows:
       - prod:
           requires:
             - integration
-    ignore_errors: true        
