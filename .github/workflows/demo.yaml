@@ -23,14 +23,6 @@ jobs:
       - run: exit 1
       - continue-on-error: true
 
-  artifact:
-    runs-on: ubuntu-20.04
-    steps:
-      - run: echo "Hello Github actions" > hello.txt
-      - uses: actions/upload-artifact@v3
-      - with:
-          name: hello 
-          path: hello.txt
   prod:
     runs-on: ubuntu-20.04
     steps:
