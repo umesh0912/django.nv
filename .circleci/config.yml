@@ -56,8 +56,8 @@ workflows:
           requires:
             - test
       - artifact:
-        requires:
-          - integration
+          requires:
+            - integration
       - prod:
           requires:
             - artifact
