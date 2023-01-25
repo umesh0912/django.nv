@@ -27,9 +27,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - run: echo "Hello Github actions" > hello.txt
-      - name: upload artifact
-        uses: actions/upload-artifact@v3
-        with:
+      - uses: actions/upload-artifact@v3
+      - with:
           name: hello 
           path: hello.txt
   prod:
