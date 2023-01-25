@@ -22,6 +22,17 @@ jobs:
     steps:
       - run: echo "This is an integration step"
       - run: exit 1
+      
+  artifact:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: create artifactg
+        run: echo "Hello Github actions" > hello.txt
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello 
+          path: hello.txt      
 
   prod:
     runs-on: ubuntu-20.04
