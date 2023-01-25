@@ -1,67 +1,84 @@
 jobs:
-  filters:
-    branches:
-      only:
-        - main
   build:
     docker:
-      - image: 'python:3.6'
+      - image: python:3.6                   # similar to "image" in GitLab
     steps:
       - checkout
-      - run: |
+      - run: |                              # similar to "script" in GitLab
           pip install -r requirements.txt
           python manage.py check
+
   test:
     docker:
-      - image: 'python:3.6'
+      - image: python:3.6
     steps:
       - checkout
       - run: |
           pip install -r requirements.txt
           python manage.py test taskManager
+
   integration:
     docker:
-      - image: 'python:3.6'
+      - image: python:3.6
     steps:
       - checkout
-      - run: exit 0
+      - run:
+          command: |
+            echo "This is an integration step"
+            exit 1
+          when: on_fail      # Even if the job fails, continue to the next jobs
+
   prod:
     docker:
-      - image: 'python:3.6'
+      - image: python:3.6
     steps:
       - checkout
       - run: echo "This is a deploy step"
-    when: always
+
   artifact:
     docker:
-      - image: 'python:3.6'
-    working_directory: /tmp
+      - image: python:3.6
     steps:
-      - run:
-          name: Creating Dummy Artifacts
-          command: |
-            echo "my artifact file" > /tmp/artifact-1;
-            mkdir /tmp/artifacts;
-            echo "my artifact files in a dir" > /tmp/artifacts/artifact-2;
+      - checkout
+      - run: echo "hello" > hello.txt
       - store_artifacts:
-          path: /tmp/artifact-1
+          path: hello.txt
           destination: artifact-file
-      - store_artifacts:
-          path: /tmp/artifacts
+
 workflows:
   version: 2
   django:
     jobs:
-      - build
-      - test:
+      - build:
+          filters:          # Run the job with a specific branch
+            branches:
+              only:
+                - main
+      - test
           requires:
             - build
-      - integration:
+          filters:
+            branches:
+              only:
+                - main
+      - integration
           requires:
             - test
-      - artifact:
+          filters:
+            branches:
+              only:
+                - main
+      - prod
           requires:
             - integration
-      - prod:
+          filters:
+            branches:
+              only:
+                - main
+      - artifact
           requires:
-            - artifact
+            - prod
+          filters:
+            branches:
+              only:
+                - main
