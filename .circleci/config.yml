@@ -1,4 +1,8 @@
 jobs:
+  filters:
+    branches:
+      only:
+        - main
   build:
     docker:
       - image: 'python:3.6'
