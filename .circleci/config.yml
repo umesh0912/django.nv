@@ -40,6 +40,15 @@ jobs:
       - store_artifacts:
           path: hello.txt
           destination: artifact-file
+          
+  release:
+    machine: true                                        # What is this for?
+    steps:
+      - checkout
+      - run: |
+          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+          docker build -t $DOCKER_USERNAME/django.nv .   # Build the application into Docker image
+          docker push $DOCKER_USERNAME/django.nv         # Push the image into registry          
 workflows:
   version: 2
   django:
@@ -77,3 +86,10 @@ workflows:
             branches:
               only:
                 - main
+      - release:
+          requires:
+            - artifact
+          filters:
+            branches:
+              only:
+                - main                
