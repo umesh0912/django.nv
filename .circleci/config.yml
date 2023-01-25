@@ -45,5 +45,5 @@ workflows:
            - test      
       - prod:
           requires:
-            - integration    
-    ignore_errors: true       
+            - integration
+    ignore_errors: true        
