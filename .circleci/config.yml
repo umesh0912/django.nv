@@ -37,11 +37,11 @@ workflows:
     jobs:
       - build
       - test:
-        requires:
-          - build
+          requires:
+           - build
       - integration:
-        requires:
-          - test      
+         requires:
+           - test      
       - prod:
-        requires:
-          - integration         
+          requires:
+            - integration         
