@@ -48,11 +48,7 @@ workflows:
   version: 2
   django:
     jobs:
-      - build:
-          filters:
-            branches:
-               only:                
-                  - main      
+      - build
       - test:
           requires:
             - build
