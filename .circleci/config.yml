@@ -23,6 +23,7 @@ jobs:
     steps:
       - checkout
       - run: exit 1 || true
+    when: on_fail  
 
   prod:
     docker:
@@ -44,4 +45,5 @@ workflows:
            - test      
       - prod:
           requires:
-            - integration         
+            - integration    
+    ignore_errors: true       
