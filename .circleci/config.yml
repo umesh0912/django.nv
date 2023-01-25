@@ -67,6 +67,6 @@ workflows:
          requires:
            - integration       
     filters:
-     branches:
-       only:
-         - main       
+      branches:
+        only:
+          - main
