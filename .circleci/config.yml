@@ -11,8 +11,6 @@ jobs:
   test:
     docker:
       - image: python:3.6
-    requires:
-      - build
     steps:
       - checkout
       - run: |
@@ -21,18 +19,14 @@ jobs:
 
   integration:
     docker:
-      - image: python:3.6
-    requires:
-      - test      
+      - image: python:3.6   
     steps:
       - checkout
       - run: exit 1 || true
 
   prod:
     docker:
-      - image: python:3.6
-    requires:
-      - integration      
+      - image: python:3.6     
     steps:
       - checkout
       - run: echo "This is a deploy step"
@@ -42,6 +36,12 @@ workflows:
   django:
     jobs:
       - build
-      - test
-      - integration
-      - prod
+      - test:
+        requires:
+          - build
+      - integration:
+        requires:
+          - test      
+      - prod:
+        requires:
+          - integration         
