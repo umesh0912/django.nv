@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - run: docker run --rm -v $(pwd):/src hysnsec/safety check -r requirements.txt --json | tee oast-results.json
+	continue-on-error: true
 
       - uses: actions/upload-artifact@v2
         with:
@@ -34,10 +35,10 @@ jobs:
   integration:
     needs: oast
     runs-on: ubuntu-20.04
-    continue-on-error: true
     steps:
       - run: echo "This is an integration step"
       - run: exit 1
+	continue-on-error: true
       
   artifact:
     needs: integration
