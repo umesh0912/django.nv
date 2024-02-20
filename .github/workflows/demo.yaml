@@ -1,7 +1,7 @@
 name: Django                                  # workflow name
 
 on:
-  push:                                       
+  push:
     branches:                                 # similar to "only" in GitLab
       - main
 
@@ -16,7 +16,7 @@ jobs:
     needs: build
     steps:
       - run: echo "This is a test step"
-      
+
   container_scanning:
     runs-on: ubuntu-20.04
     needs: test
@@ -43,7 +43,8 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'MEDIUM'
-          
+        continue-on-error: true             # allow the build to fail, similar to "allow_failure: true" in GitLab
+
   integration:
     runs-on: ubuntu-20.04
     needs: container_scanning
