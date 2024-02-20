@@ -1,15 +1,15 @@
-name: Django                                  # workflow name
+name: Django                                 
 
 on:
   push:                                       
-    branches:                                 # similar to "only" in GitLab
+    branches:                                
       - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04                   # similar to "image" in GitLab
+    runs-on: ubuntu-20.04                   
     steps:
-      - run: echo "This is a build step"      # similar to "script" in GitLab
+      - run: echo "This is a build step"      
 
   test:
     runs-on: ubuntu-20.04
