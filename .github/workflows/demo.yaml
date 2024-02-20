@@ -1,13 +1,13 @@
-name: Django                                  # workflow name
+name: Django                                 
 
 on:
   push:                                       
-    branches:                                 # similar to "only" in GitLab
+    branches:                                
       - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04                    # similar to "image" in GitLab
+    runs-on: ubuntu-20.04                 
     steps:
       - uses: actions/checkout@v2
 
