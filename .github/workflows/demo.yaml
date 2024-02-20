@@ -7,60 +7,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04                    # similar to "image" in GitLab
+    runs-on: ubuntu-20.04                   # similar to "image" in GitLab
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.6'
-
-      - run: |
-          pip3 install --upgrade virtualenv
-          virtualenv env
-          source env/bin/activate
-          pip install -r requirements.txt
-          python manage.py check
+      - run: echo "This is a build step"      # similar to "script" in GitLab
 
   test:
     runs-on: ubuntu-20.04
     needs: build
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.6'
-
-      - run: |
-          pip3 install --upgrade virtualenv
-          virtualenv env
-          source env/bin/activate
-          pip install -r requirements.txt
-          python manage.py test taskManager
-          
-  sonarqube:
-    runs-on: ubuntu-20.04
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      with:
-        projectBaseDir: .
-        args: >
-          -Dsonar.projectKey=Django          
+      - run: echo "This is a test step"
 
   integration:
     runs-on: ubuntu-20.04
-    needs: test
+    needs: container_scanning
     steps:
       - run: echo "This is an integration step"
       - run: exit 1
@@ -70,4 +29,4 @@ jobs:
     runs-on: ubuntu-20.04
     needs: integration
     steps:
-      - run: echo "This is a deploy step."
+      - run: echo "This is a deploy step"
