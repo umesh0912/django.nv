@@ -41,6 +41,20 @@ jobs:
           pip install -r requirements.txt
           python manage.py test taskManager
 
+  oast-frontend:
+    name: Security Scan
+    runs-on: ubuntu-20.04
+    # Skip any PR created by dependabot to avoid permission issues
+    if: (github.actor != 'dependabot[bot]')
+    container:
+      image: semgrep/semgrep
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep scan
+        run: semgrep scan --config auto --config p/security-audit --config p/secrets --config p/django
+
   integration:
     runs-on: ubuntu-20.04
     needs: test
