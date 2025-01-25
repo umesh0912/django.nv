@@ -1,7 +1,7 @@
 jobs:
   build:
     docker:
-      - image: python:3.6                   # similar to "image" in GitLab
+      - image: python:3.6                   # similar to "image" in GitLab test-uj
     steps:
       - checkout
       - run: |                              # similar to "script" in GitLab
